@@ -59,6 +59,11 @@ class _SignupScreenState extends State<SignupScreen> {
         var resBodyOfSignup = jsonDecode(res.body);
         if (resBodyOfSignup['success'] == true) {
           Fluttertoast.showToast(msg: "SignUp successfuly.");
+          setState(() {
+            nameController.clear();
+            emailController.clear();
+            passwordController.clear();
+          });
         } else {
           Fluttertoast.showToast(msg: "Try Again.");
         }

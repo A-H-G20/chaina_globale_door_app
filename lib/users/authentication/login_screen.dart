@@ -1,6 +1,13 @@
+import 'dart:convert';
+
 import 'package:chaina_globale_door/users/authentication/signup_screen.dart';
+import 'package:chaina_globale_door/users/model/user.dart';
+import 'package:chaina_globale_door/users/userPreferences/user_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:chaina_globale_door/api_connection/api_connection.dart';
 
 // ignore: use_key_in_widget_constructors
 class LoginScreen extends StatefulWidget {
@@ -13,6 +20,38 @@ class _LoginScreenState extends State<LoginScreen> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var isobsecure = true.obs;
+
+  loginUserNow() async {
+    var res = await http.post(
+      Uri.parse(API.login),
+      body: {
+        "user_email": emailController.text.trim(),
+        "user_password": passwordController.text.trim(),
+      },
+    );
+    if (res.statusCode == 200) {
+      var resBodyOfLogin = jsonDecode(res.body);
+      if (resBodyOfLogin['success'] == true) {
+        Fluttertoast.showToast(msg: "Login successfuly.");
+        /* setState(() {
+          
+          emailController.clear();
+          passwordController.clear();
+        });*/
+
+        User userInfo = User.fromJson(resBodyOfLogin["userData"]);
+        await RememberUserPrefs.saveRemembeUser(userInfo);
+
+
+        
+
+
+      } else {
+        Fluttertoast.showToast(msg: "Incorrect credentials, Try Again.");
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,7 +222,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     color: Colors.black,
                                     borderRadius: BorderRadius.circular(30),
                                     child: InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        loginUserNow();
+                                      },
                                       borderRadius: BorderRadius.circular(30),
                                       child: const Padding(
                                         padding: EdgeInsets.symmetric(

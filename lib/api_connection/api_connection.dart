@@ -6,4 +6,5 @@ class API {
   // Signup user
   static const validateEmail = "$hostConnectUser/validate_email.php";
   static const signup = "$hostConnectUser/signup.php";
+   static const login = "$hostConnectUser/login.php";
 }
