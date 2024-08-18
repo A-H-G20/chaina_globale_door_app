@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });*/
 
           User userInfo = User.fromJson(resBodyOfLogin["userData"]);
-          await RememberUserPrefs.saveRemembeUser(userInfo);
+          await RememberUserPrefs.storeUserInfo(userInfo);
 
           Future.delayed(const Duration(milliseconds: 2000), () {
             Get.to(DashboardOfFragments());

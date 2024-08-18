@@ -1,5 +1,5 @@
 class API {
- static const hostConnect = "https://1b42-178-135-11-189.ngrok-free.app/api_chaina_store";
+ static const hostConnect = "https://27ba-178-135-11-189.ngrok-free.app/api_chaina_store";
 
   static const hostConnectUser = "$hostConnect/user";
 
