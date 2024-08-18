@@ -1,6 +1,6 @@
 import 'package:chaina_globale_door/users/authentication/login_screen.dart';
 import 'package:chaina_globale_door/users/fragments/dashboard_of_fragments.dart';
-import 'package:chaina_globale_door/users/model/user.dart';
+
 import 'package:chaina_globale_door/users/userPreferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

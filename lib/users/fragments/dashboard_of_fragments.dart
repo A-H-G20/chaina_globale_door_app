@@ -11,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class DashboardOfFragments extends StatelessWidget {
   // ignore: prefer_final_fields
   CurrentUser _rememberCurrentUser = Get.put(CurrentUser());
-  List<Widget> _fragmentScreen = [
+  final List<Widget> _fragmentScreen = [
     HomeFragmentScreen(),
     FavoritesFragmentScreen(),
     OrderFragmentScreen(),
@@ -40,6 +40,7 @@ class DashboardOfFragments extends StatelessWidget {
       "label": "Profile",
     },
   ];
+  // ignore: prefer_final_fields
   RxInt _indexNumber = 0.obs;
   @override
   Widget build(BuildContext context) {
@@ -55,6 +56,7 @@ class DashboardOfFragments extends StatelessWidget {
           bottomNavigationBar: Obx(
             () => BottomNavigationBar(
               currentIndex: _indexNumber.value,
+              // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
               onTap: (Value) {
                 _indexNumber.value = Value;
               },
