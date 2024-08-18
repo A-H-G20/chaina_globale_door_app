@@ -1,4 +1,7 @@
 import 'package:chaina_globale_door/users/authentication/login_screen.dart';
+import 'package:chaina_globale_door/users/fragments/dashboard_of_fragments.dart';
+import 'package:chaina_globale_door/users/model/user.dart';
+import 'package:chaina_globale_door/users/userPreferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,17 +20,18 @@ class MyApp extends StatelessWidget {
       title: 'chaina_globale_door',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch:  Colors.blue,
-      
+        primarySwatch: Colors.blue,
       ),
       home: FutureBuilder(
-        builder : (context, dataSnapShot)
-        {
-        return LoginScreen(); 
-      }, future: null, 
-    ),
+        future: RememberUserPrefs.readUserInfo(),
+        builder: (context, dataSnapShot) {
+          if (dataSnapShot.data == null) {
+            return LoginScreen();
+          } else {
+            return DashboardOfFragments();
+          }
+        },
+      ),
     );
   }
-
 }
-
