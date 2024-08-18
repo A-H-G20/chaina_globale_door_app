@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:chaina_globale_door/users/authentication/signup_screen.dart';
+import 'package:chaina_globale_door/users/fragments/dashboard_of_fragments.dart';
 import 'package:chaina_globale_door/users/model/user.dart';
 import 'package:chaina_globale_door/users/userPreferences/user_preferences.dart';
 import 'package:flutter/material.dart';
@@ -22,33 +23,36 @@ class _LoginScreenState extends State<LoginScreen> {
   var isobsecure = true.obs;
 
   loginUserNow() async {
-    var res = await http.post(
-      Uri.parse(API.login),
-      body: {
-        "user_email": emailController.text.trim(),
-        "user_password": passwordController.text.trim(),
-      },
-    );
-    if (res.statusCode == 200) {
-      var resBodyOfLogin = jsonDecode(res.body);
-      if (resBodyOfLogin['success'] == true) {
-        Fluttertoast.showToast(msg: "Login successfuly.");
-        /* setState(() {
+    try {
+      var res = await http.post(
+        Uri.parse(API.login),
+        body: {
+          "user_email": emailController.text.trim(),
+          "user_password": passwordController.text.trim(),
+        },
+      );
+      if (res.statusCode == 200) {
+        var resBodyOfLogin = jsonDecode(res.body);
+        if (resBodyOfLogin['success'] == true) {
+          Fluttertoast.showToast(msg: "Login successfuly.");
+          /* setState(() {
           
           emailController.clear();
           passwordController.clear();
         });*/
 
-        User userInfo = User.fromJson(resBodyOfLogin["userData"]);
-        await RememberUserPrefs.saveRemembeUser(userInfo);
+          User userInfo = User.fromJson(resBodyOfLogin["userData"]);
+          await RememberUserPrefs.saveRemembeUser(userInfo);
 
-
-        
-
-
-      } else {
-        Fluttertoast.showToast(msg: "Incorrect credentials, Try Again.");
+          Future.delayed(const Duration(milliseconds: 2000), () {
+            Get.to(DashboardOfFragments());
+          });
+        } else {
+          Fluttertoast.showToast(msg: "Incorrect credentials, Try Again.");
+        }
       }
+    } catch (e) {
+      print("Error: " + e.toString());
     }
   }
 
@@ -223,7 +227,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     borderRadius: BorderRadius.circular(30),
                                     child: InkWell(
                                       onTap: () {
-                                        loginUserNow();
+                                       if(formkey.currentState!.validate()){
+                                         loginUserNow();
+                                       }
                                       },
                                       borderRadius: BorderRadius.circular(30),
                                       child: const Padding(
