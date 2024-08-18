@@ -1,7 +1,11 @@
 class User {
+  // ignore: non_constant_identifier_names
   int user_id;
+  // ignore: non_constant_identifier_names
   String user_name;
+  // ignore: non_constant_identifier_names
   String user_email;
+  // ignore: non_constant_identifier_names
   String user_password;
 
   User(

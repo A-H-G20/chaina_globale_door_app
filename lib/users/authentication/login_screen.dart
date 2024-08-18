@@ -52,6 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       }
     } catch (e) {
+      // ignore: avoid_print, prefer_interpolation_to_compose_strings
       print("Error: " + e.toString());
     }
   }
