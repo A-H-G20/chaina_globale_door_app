@@ -51,7 +51,7 @@ class DashboardOfFragments extends StatelessWidget {
       },
       builder: (controller) {
         return  Scaffold(
-          backgroundColor: Colors.lightBlue,
+          backgroundColor: Colors.white,
           body: SafeArea(child: Obx(() => _fragmentScreen[_indexNumber.value]),),
           bottomNavigationBar: Obx(
             () => BottomNavigationBar(
