@@ -1,7 +1,56 @@
+import "package:chaina_globale_door/users/authentication/login_screen.dart";
+import "package:chaina_globale_door/users/userPreferences/current_user.dart";
+import "package:chaina_globale_door/users/userPreferences/user_preferences.dart";
 import "package:flutter/material.dart";
+import "package:get/get.dart";
 
 // ignore: use_key_in_widget_constructors
 class ProfileFragmentScreen extends StatelessWidget {
+  final CurrentUser _currentUser = Get.put(CurrentUser());
+  signOutUser() async {
+    var resultResponse = await Get.dialog(
+      AlertDialog(
+        backgroundColor: Colors.grey,
+        title: const Text(
+          "Logout",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        content: const Text(
+          "Are you sure?\nyou want to logout from app?",
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text(
+              "No",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.back(result: "loggedOut");
+            },
+            child: const Text(
+              "yes",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (resultResponse == "loggedOut") {
+      RememberUserPrefs.removeUserInfo().then((value) {
+        Get.off(LoginScreen());
+      });
+    }
+  }
+
   Widget userInfoItemProfile(IconData iconData, String userData) {
     return Container(
       decoration: BoxDecoration(
@@ -47,11 +96,11 @@ class ProfileFragmentScreen extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        userInfoItemProfile(Icons.person, "user name"),
+        userInfoItemProfile(Icons.person, _currentUser.user.user_name),
         const SizedBox(
           height: 20,
         ),
-        userInfoItemProfile(Icons.email, "useremail@gmail.com"),
+        userInfoItemProfile(Icons.email, _currentUser.user.user_email),
         const SizedBox(
           height: 20,
         ),
@@ -60,7 +109,9 @@ class ProfileFragmentScreen extends StatelessWidget {
             color: Colors.redAccent,
             borderRadius: BorderRadius.circular(8),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                signOutUser();
+              },
               borderRadius: BorderRadius.circular(32),
               child: const Padding(
                 padding: EdgeInsets.symmetric(
